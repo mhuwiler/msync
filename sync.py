@@ -4,6 +4,8 @@ import os
 import sys
 import glob
 from datetime import datetime
+import shutil
+import hashlib
 
 
 devicefolder = "/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/3565-3062/DCIM/Camera/"
@@ -31,7 +33,19 @@ for file in os.listdir(devicefolder):
 
 		stamp = datetime.strptime(framedate, "%Y%m%d")
 
-		print "Name: {}".format(stamp.strftime("%Y_%m_%d"))
+		foldername = stamp.strftime("%Y_%m_%d")
 
-		
+		print "Name: {}".format(foldername)
+
+		checksum = hashlib.md5(open(devicefolder+file, "rb").read()).hexdigest()
+
+		print checksum
+
+
+		currentdest = localfolder+foldername
+
+		if not os.path.isdir(currentdest): 
+			os.makedirs(currentdest) # for python 3:  exist_ok = True
+
+		shutil.copy2(devicefolder+file, currentdest)
 
