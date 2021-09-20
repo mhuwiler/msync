@@ -13,7 +13,9 @@ devicefolder = "/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/3565-3062/D
 localfolder = "/Users/mhuwiler/Pictures/Camera_Phone/"
 
 
-for file in os.listdir(devicefolder): 
+for file in sorted(filter(os.path.isfile, [devicefolder+f for f in os.listdir(devicefolder)]), key=os.path.getmtime): #Getting files sorted by date
+#for file in os.listdir(devicefolder): 
+	file = os.path.basename(file)
 	if (os.path.isfile(devicefolder+file)): 
 		#print file
 
