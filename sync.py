@@ -40,6 +40,12 @@ def folderNameFromFileName(filename):
 	foldername = datetime.strptime(framedate, "%Y%m%d").strftime("%Y_%m_%d")
 	return foldername
 
+def copyFile(src, dest): 
+	if not os.path.isdir(dest): 
+		os.makedirs(dest) # for python 3:  exist_ok = True
+
+	shutil.copy2(src, dest)
+
 
 bookkeeping = {}
 
@@ -53,13 +59,8 @@ for file in sorted(filter(os.path.isfile, [devicefolder+f for f in os.listdir(de
 		filename = os.path.basename(file)
 		foldername = folderNameFromFileName(filename)
 
-		
-
-		checksum = hashlib.sha256(open(file, "rb").read()).hexdigest()
-
-		print getsha256(file)
-
-		print checksum
+		#checksum = hashlib.sha256(open(file, "rb").read()).hexdigest()
+		checksum = getsha256(file)
 
 		bookkeeping.update({filename:checksum})
 
@@ -68,10 +69,9 @@ for file in sorted(filter(os.path.isfile, [devicefolder+f for f in os.listdir(de
 
 		currentdest = localfolder+foldername
 
-		if not os.path.isdir(currentdest): 
-			os.makedirs(currentdest) # for python 3:  exist_ok = True
-
-		shutil.copy2(file, currentdest)
+		print "Copying file {}".format(filename)
+		copyFile(file, currentdest)
+		
 
 
 print bookkeeping
