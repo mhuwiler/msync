@@ -47,10 +47,18 @@ def copyFile(src, dest):
 	shutil.copy2(src, dest)
 
 
-bookkeeping = {}
+try: 
+	inventory = open("inventory.json", "r")
+	bookkeeping = json.load(inventory)
+	inventory.close()
+except: 
+	bookkeeping = {}
 
 
-for file in sorted(filter(os.path.isfile, [devicefolder+f for f in os.listdir(devicefolder)]), key=os.path.getmtime): #Getting files sorted by date
+filelist = sorted(filter(os.path.isfile, [devicefolder+f for f in os.listdir(devicefolder)]), key=os.path.getmtime) #Getting files sorted by date
+filelist = filelist[0:10]
+
+for file in filelist: 
 #for file in os.listdir(devicefolder): 
 	#file = os.path.basename(file)
 	if (os.path.isfile(file)): 
@@ -62,17 +70,22 @@ for file in sorted(filter(os.path.isfile, [devicefolder+f for f in os.listdir(de
 		#checksum = hashlib.sha256(open(file, "rb").read()).hexdigest()
 		checksum = getsha256(file)
 
-		bookkeeping.update({filename:checksum})
-
 
 
 
 		currentdest = localfolder+foldername
 
-		print "Copying file {}".format(filename)
-		copyFile(file, currentdest)
+		if filename in bookkeeping: 
+			print "File {} already existing".format(filename)
+			assert(checksum == bookkeeping[filename])
+		else: 
+			bookkeeping.update({filename:checksum})
+			print "Copying file {}".format(filename)
+			copyFile(file, currentdest)
 		
 
 
 print bookkeeping
+with open("inventory.json", "w") as inventory:
+	json.dump(bookkeeping, inventory)
 
