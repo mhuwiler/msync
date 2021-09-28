@@ -40,12 +40,26 @@ def folderNameFromFileName(filename):
 	foldername = datetime.strptime(framedate, "%Y%m%d").strftime("%Y_%m_%d")
 	return foldername
 
-def copyFile(src, dest): 
+def copyFile(src, dest, checksum=""): 
 	if not os.path.isdir(dest): 
 		os.makedirs(dest) # for python 3:  exist_ok = True
 
 	shutil.copy2(src, dest)
 
+	if not (checksum == ""): 
+		destsum = getsha256(os.path.join(dest,os.path.basename(src)))
+		count = 0
+		while ((destsum != checksum) and (count < 3)): 
+			shutil.copy2(src, dest)
+			destsum = getsha256(os.path.join(dest, os.path.basename(src)))
+			count += 1
+			print "Copy failed! "
+
+		if (count == 3): 
+			print "Copy filed after 3 retires! "
+			return False
+
+	return True
 
 try: 
 	inventory = open("inventory.json", "r")
@@ -81,7 +95,7 @@ for file in filelist:
 		else: 
 			bookkeeping.update({filename:checksum})
 			print "Copying file {}".format(filename)
-			copyFile(file, currentdest)
+			copyFile(file, currentdest, checksum)
 		
 
 
