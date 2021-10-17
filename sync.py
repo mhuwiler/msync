@@ -8,10 +8,12 @@ import shutil
 import hashlib
 import json
 
+NRETRY=3 # TODO: set in config 
+
 
 devicefolder = "/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/3565-3062/DCIM/Camera/"
 
-localfolder = "/Users/mhuwiler/Pictures/Camera_Phone/"
+localfolder = "/Volumes/TOSHIBA EXT/DATA/Pictures/Camera_Phone/" #"/Users/mhuwiler/Pictures/Camera_Phone/"
 
 
 def getmd5(fname):
@@ -49,13 +51,13 @@ def copyFile(src, dest, checksum=""):
 	if not (checksum == ""): 
 		destsum = getsha256(os.path.join(dest,os.path.basename(src)))
 		count = 0
-		while ((destsum != checksum) and (count < 3)): 
+		while ((destsum != checksum) and (count < NRETRY)): 
 			shutil.copy2(src, dest)
 			destsum = getsha256(os.path.join(dest, os.path.basename(src)))
 			count += 1
 			print "Copy failed! "
 
-		if (count == 3): 
+		if (count == NRETRY): 
 			print "Copy filed after 3 retires! "
 			return False
 
@@ -68,9 +70,11 @@ try:
 except: 
 	bookkeeping = {}
 
+erroneousfiles = []
+
 
 filelist = sorted(filter(os.path.isfile, [devicefolder+f for f in os.listdir(devicefolder)]), key=os.path.getmtime) #Getting files sorted by date
-filelist = filelist[0:10]
+#filelist = filelist[0:10]
 
 for file in filelist: 
 #for file in os.listdir(devicefolder): 
@@ -95,9 +99,14 @@ for file in filelist:
 		else: 
 			bookkeeping.update({filename:checksum})
 			print "Copying file {}".format(filename)
-			copyFile(file, currentdest, checksum)
+			if not copyFile(file, currentdest, checksum): 
+				erroneousfiles.append(file)
 		
 
+
+# print if file copying failed 
+if (len(erroneousfiles)>0): print "ERROR: The following files could not be copied:"
+print [f for f in erroneousfiles]
 
 print bookkeeping
 with open("inventory.json", "w") as inventory:
