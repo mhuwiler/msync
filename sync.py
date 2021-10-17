@@ -10,12 +10,36 @@ import json
 
 NRETRY=3 # TODO: set in config 
 
-strict=False
+strict=True
 
 
 devicefolder = "/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/3565-3062/DCIM/Camera/"
 
 localfolder = "/Volumes/TOSHIBA EXT/DATA/Pictures/Camera_Phone/" #"/Users/mhuwiler/Pictures/Camera_Phone/"
+
+
+config = {"DCIM":{
+			"source":"/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/3565-3062/DCIM/Camera/", 
+			"destination":"/Volumes/TOSHIBA EXT/DATA/Pictures/Camera_Phone/",
+			"mode":"CanonCameraWindow"},
+		  "WhatsAppImages":{
+		  	"source":"/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/emulated/0/WhatsApp/Media/WhatsApp Images/", 
+		  	"destination":"/Volumes/TOSHIBA EXT/DATA/Phone/WhatsappImages/Images/", 
+		  	"mode":"plain"}, 
+		  "WhatsAppImagesSent":{
+		  	"source":"/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/emulated/0/WhatsApp/Media/WhatsApp Images/Sent/", 
+		  	"destination":"/Volumes/TOSHIBA EXT/DATA/Phone/WhatsappImages/Images/sent/", 
+		  	"mode":"plain"},
+		  "WhatsAppGifs":{
+		  	"source":"/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/emulated/0/WhatsApp/Media/WhatsApp Animated Gifs/", 
+		  	"destination":"/Volumes/TOSHIBA EXT/DATA/Phone/WhatsappImages/Gifs/", 
+		  	"mode":"plain"}, 
+		  "WhatsAppGifsSent":{
+		  	"source":"/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/emulated/0/WhatsApp/Media/WhatsApp Animated Gifs/Sent/", 
+		  	"destination":"/Volumes/TOSHIBA EXT/DATA/Phone/WhatsappImages/Gifs/sent/", 
+		  	"mode":"plain"},
+
+		}
 
 
 def getmd5(fname):
@@ -75,37 +99,43 @@ except:
 erroneousfiles = []
 
 
-filelist = sorted(filter(os.path.isfile, [devicefolder+f for f in os.listdir(devicefolder)]), key=os.path.getmtime) #Getting files sorted by date
-#filelist = filelist[0:10]
+for item, values in config.items():
+	print "Syncing {}".format(item)
+	devicefolder = values["source"]
+	localfolder = values["destination"]
+	filelist = sorted(filter(os.path.isfile, [devicefolder+f for f in os.listdir(devicefolder)]), key=os.path.getmtime) #Getting files sorted by date
+	#filelist = filelist[0:10]
 
-for file in filelist: 
-#for file in os.listdir(devicefolder): 
-	#file = os.path.basename(file)
-	if (os.path.isfile(file)): 
-		#print file
+	for file in filelist: 
+	#for file in os.listdir(devicefolder): 
+		#file = os.path.basename(file)
+		if (os.path.isfile(file)): 
+			#print file
 
-		filename = os.path.basename(file)
-		foldername = folderNameFromFileName(filename)
+			filename = os.path.basename(file)
 
-		#checksum = hashlib.sha256(open(file, "rb").read()).hexdigest()
-
+			#checksum = hashlib.sha256(open(file, "rb").read()).hexdigest()
 
 
+			if values["mode"] == "CanonZoomBrowser": 
+				foldername = folderNameFromFileName(filename)
 
+				currentdest = localfolder+foldername
 
-		currentdest = localfolder+foldername
+			else: 
+				currentdest = localfolder
 
-		if filename in bookkeeping: 
-			print "File {} already existing".format(filename)
-			if (strict): 
+			if filename in bookkeeping: 
+				print "File {} already existing".format(filename)
+				if (strict): 
+					checksum = getsha256(file)
+					assert(checksum == bookkeeping[filename])
+			else: 
 				checksum = getsha256(file)
-				assert(checksum == bookkeeping[filename])
-		else: 
-			checksum = getsha256(file)
-			bookkeeping.update({filename:checksum})
-			print "Copying file {}".format(filename)
-			if not copyFile(file, currentdest, checksum): 
-				erroneousfiles.append(file)
+				bookkeeping.update({filename:checksum})
+				print "Copying file {}".format(filename)
+				if not copyFile(file, currentdest, checksum): 
+					erroneousfiles.append(file)
 		
 
 
