@@ -10,6 +10,8 @@ import json
 
 NRETRY=3 # TODO: set in config 
 
+strict=False
+
 
 devicefolder = "/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/3565-3062/DCIM/Camera/"
 
@@ -86,7 +88,7 @@ for file in filelist:
 		foldername = folderNameFromFileName(filename)
 
 		#checksum = hashlib.sha256(open(file, "rb").read()).hexdigest()
-		checksum = getsha256(file)
+
 
 
 
@@ -95,8 +97,11 @@ for file in filelist:
 
 		if filename in bookkeeping: 
 			print "File {} already existing".format(filename)
-			assert(checksum == bookkeeping[filename])
+			if (strict): 
+				checksum = getsha256(file)
+				assert(checksum == bookkeeping[filename])
 		else: 
+			checksum = getsha256(file)
 			bookkeeping.update({filename:checksum})
 			print "Copying file {}".format(filename)
 			if not copyFile(file, currentdest, checksum): 
