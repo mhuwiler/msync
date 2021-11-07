@@ -10,7 +10,7 @@ import json
 
 NRETRY=3 # TODO: set in config 
 
-strict=True
+strict=False
 
 
 devicefolder = "/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/3565-3062/DCIM/Camera/"
@@ -38,7 +38,14 @@ config = {"DCIM":{
 		  	"source":"/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/emulated/0/WhatsApp/Media/WhatsApp Animated Gifs/Sent/", 
 		  	"destination":"/Volumes/TOSHIBA EXT/DATA/Phone/WhatsappImages/Gifs/sent/", 
 		  	"mode":"plain"},
-
+		  "WhatsAppVideos":{
+		  	"source":"/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/emulated/0/WhatsApp/Media/WhatsApp Video/", 
+		  	"destination":"/Volumes/TOSHIBA EXT/DATA/Phone/WhatsappImages/Videos/", 
+		  	"mode":"plain"}, 
+		  "WhatsAppVideosSent":{
+		  	"source":"/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/emulated/0/WhatsApp/Media/WhatsApp Video/Sent/", 
+		  	"destination":"/Volumes/TOSHIBA EXT/DATA/Phone/WhatsappImages/Videos/sent/", 
+		  	"mode":"plain"},
 		}
 
 
