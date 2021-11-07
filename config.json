@@ -1,0 +1,39 @@
+{
+	"default": {
+		"DCIM":{
+			"source":"/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/3565-3062/DCIM/Camera/", 
+			"destination":"/Volumes/TOSHIBA EXT/DATA/Pictures/Camera_Phone/",
+			"mode":"CanonCameraWindow"
+		},
+		"WhatsAppImages":{
+		  	"source":"/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/emulated/0/WhatsApp/Media/WhatsApp Images/", 
+		  	"destination":"/Volumes/TOSHIBA EXT/DATA/Phone/WhatsappImages/Images/", 
+		  	"mode":"plain"
+		}, 
+		"WhatsAppImagesSent":{
+		  	"source":"/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/emulated/0/WhatsApp/Media/WhatsApp Images/Sent/", 
+		  	"destination":"/Volumes/TOSHIBA EXT/DATA/Phone/WhatsappImages/Images/sent/", 
+		  	"mode":"plain"
+		},
+		"WhatsAppGifs":{
+		  	"source":"/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/emulated/0/WhatsApp/Media/WhatsApp Animated Gifs/", 
+		  	"destination":"/Volumes/TOSHIBA EXT/DATA/Phone/WhatsappImages/Gifs/", 
+		  	"mode":"plain"
+		}, 
+		"WhatsAppGifsSent":{
+		  	"source":"/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/emulated/0/WhatsApp/Media/WhatsApp Animated Gifs/Sent/", 
+		  	"destination":"/Volumes/TOSHIBA EXT/DATA/Phone/WhatsappImages/Gifs/sent/", 
+		  	"mode":"plain"
+		},
+		"WhatsAppVideos":{
+		  	"source":"/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/emulated/0/WhatsApp/Media/WhatsApp Video/", 
+		  	"destination":"/Volumes/TOSHIBA EXT/DATA/Phone/WhatsappImages/Videos/", 
+		  	"mode":"plain"
+		}, 
+		"WhatsAppVideosSent":{
+		  	"source":"/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/emulated/0/WhatsApp/Media/WhatsApp Video/Sent/", 
+		  	"destination":"/Volumes/TOSHIBA EXT/DATA/Phone/WhatsappImages/Videos/sent/", 
+		  	"mode":"plain"
+		}
+	}
+}

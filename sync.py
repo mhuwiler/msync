@@ -18,37 +18,6 @@ devicefolder = "/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/3565-3062/D
 localfolder = "/Volumes/TOSHIBA EXT/DATA/Pictures/Camera_Phone/" #"/Users/mhuwiler/Pictures/Camera_Phone/"
 
 
-config = {"DCIM":{
-			"source":"/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/3565-3062/DCIM/Camera/", 
-			"destination":"/Volumes/TOSHIBA EXT/DATA/Pictures/Camera_Phone/",
-			"mode":"CanonCameraWindow"},
-		  "WhatsAppImages":{
-		  	"source":"/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/emulated/0/WhatsApp/Media/WhatsApp Images/", 
-		  	"destination":"/Volumes/TOSHIBA EXT/DATA/Phone/WhatsappImages/Images/", 
-		  	"mode":"plain"}, 
-		  "WhatsAppImagesSent":{
-		  	"source":"/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/emulated/0/WhatsApp/Media/WhatsApp Images/Sent/", 
-		  	"destination":"/Volumes/TOSHIBA EXT/DATA/Phone/WhatsappImages/Images/sent/", 
-		  	"mode":"plain"},
-		  "WhatsAppGifs":{
-		  	"source":"/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/emulated/0/WhatsApp/Media/WhatsApp Animated Gifs/", 
-		  	"destination":"/Volumes/TOSHIBA EXT/DATA/Phone/WhatsappImages/Gifs/", 
-		  	"mode":"plain"}, 
-		  "WhatsAppGifsSent":{
-		  	"source":"/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/emulated/0/WhatsApp/Media/WhatsApp Animated Gifs/Sent/", 
-		  	"destination":"/Volumes/TOSHIBA EXT/DATA/Phone/WhatsappImages/Gifs/sent/", 
-		  	"mode":"plain"},
-		  "WhatsAppVideos":{
-		  	"source":"/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/emulated/0/WhatsApp/Media/WhatsApp Video/", 
-		  	"destination":"/Volumes/TOSHIBA EXT/DATA/Phone/WhatsappImages/Videos/", 
-		  	"mode":"plain"}, 
-		  "WhatsAppVideosSent":{
-		  	"source":"/Users/mhuwiler/.AFTVolumes/samsung SM-A520F/storage/emulated/0/WhatsApp/Media/WhatsApp Video/Sent/", 
-		  	"destination":"/Volumes/TOSHIBA EXT/DATA/Phone/WhatsappImages/Videos/sent/", 
-		  	"mode":"plain"},
-		}
-
-
 def getmd5(fname):
     hash_md5 = hashlib.md5()
     with open(fname, "rb") as f:
@@ -104,6 +73,12 @@ except:
 	bookkeeping = {}
 
 erroneousfiles = []
+
+
+configurationfile = open("config.json", "r")
+configs = json.load(configurationfile)
+
+config = configs["default"]
 
 
 for item, values in config.items():
