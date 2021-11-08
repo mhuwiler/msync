@@ -7,6 +7,7 @@ from datetime import datetime
 import shutil
 import hashlib
 import json
+import Configuration as configuration
 
 NRETRY=3 # TODO: set in config 
 
@@ -99,13 +100,17 @@ for item, values in config.items():
 			#checksum = hashlib.sha256(open(file, "rb").read()).hexdigest()
 
 
-			if values["mode"] == "CanonZoomBrowser": 
-				foldername = folderNameFromFileName(filename)
+			#if values["mode"] == "CanonZoomBrowser": 
+#				foldername = folderNameFromFileName(filename)#
 
-				currentdest = localfolder+foldername
+#				currentdest = localfolder+foldername#
 
-			else: 
-				currentdest = localfolder
+#			else: 
+#				currentdest = localfolder
+
+			currentdest = configuration.copyMode[values["mode"]].getFolderName(file, localfolder)
+
+			print currentdest
 
 			if filename in bookkeeping: 
 				print "File {} already existing".format(filename)
