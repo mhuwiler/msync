@@ -20,7 +20,7 @@ class CopyMode:
 class GalaxyA52017(CopyMode): 
 	@staticmethod
 	def getFolderName(file, destfolder): 
-		return GalaxyA52017.folderNameFromFileName(os.path.basename(file))
+		return destfolder + GalaxyA52017.folderNameFromFileName(os.path.basename(file))
 
 	@staticmethod
 	def folderNameFromFileName(filename): 
