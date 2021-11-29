@@ -7,7 +7,7 @@ from datetime import datetime
 import shutil
 import hashlib
 import json
-import Configuration as configuration
+import etc.Configuration as configuration
 
 NRETRY=3 # TODO: set in config 
 
@@ -76,7 +76,7 @@ except:
 erroneousfiles = []
 
 
-configurationfile = open("config.json", "r")
+configurationfile = open("etc/config.json", "r")
 configs = json.load(configurationfile)
 
 config = configs["default"]
