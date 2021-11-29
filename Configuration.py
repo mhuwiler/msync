@@ -36,7 +36,10 @@ class default(CopyMode):
 		return destfolder
 
 
-copyMode = { "plain": default, 
-			 "CanonCameraWindow": GalaxyA52017
-			}
+copyMode = { 
+
+	"plain": default, 
+	"CanonCameraWindow": GalaxyA52017
+
+}
 
